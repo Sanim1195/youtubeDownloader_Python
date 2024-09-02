@@ -1,6 +1,7 @@
-# Using putube a popular python library to download audios and visdeos from youtube
+# Using putube a popular python library to download audios and videos from youtube
 # Read the docs: https://pytube.io
-# Mutagen library aims to be an all purpose multimedia tagging library which in our case can add metadata to a multimedia
+# Mutagen library aims to be an all purpose multimedia tagging library
+#  which in our case can add metadata to a multimedia
 
 from pytube import YouTube
 import requests
@@ -23,7 +24,8 @@ def download_from_youtube(url):
         stream = yt.streams.filter(
             adaptive=True, only_audio=True, file_extension='mp4')
         print(stream)
-        # selecting the correct object from the list of stream
+        # selecting the correct object from the list of stream(in this case we select
+        #  the last one on the list with the highest audio quality)
         selected_stream = stream[-1]
         print(selected_stream)
 
@@ -34,7 +36,7 @@ def download_from_youtube(url):
         print("Your song has been downloaded!")
 
         # Download the thumbnail art
-        response = requests.get(thumbnail)
+        response = requests.get(thumbnail, timeout=60)
         thumbnail_data = response.content
 
         # Add the thumbnail as cover art and set artist and album name
@@ -50,9 +52,10 @@ def download_from_youtube(url):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-# Url of 
+
+# URL of youtube video (only downloads audio)that you want to download
 URL = "https://youtu.be/J4DmU_On6ag"
 
-
+# Main function
 if __name__ == "__main__":
     download_from_youtube(URL)
